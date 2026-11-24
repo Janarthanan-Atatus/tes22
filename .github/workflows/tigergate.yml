@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }            # full history -> diff-aware PR scans
       - run: >
-          scan --api-url https://constraint-install-wings-atom.trycloudflare.com/api/ci --type all --scan-scope auto
+          tigergate scan --api-url https://constraint-install-wings-atom.trycloudflare.com/api/ci --type all --scan-scope auto
           --fail-on critical,high --max-critical 0 --max-high 10
           --quality-gate --exclude "node_modules,dist,vendor"
           --sca-ignore-unfixed --coverage-report coverage/lcov.info
