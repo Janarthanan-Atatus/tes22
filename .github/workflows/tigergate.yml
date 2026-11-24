@@ -1,0 +1,24 @@
+name: TigerGate Security Scan
+on:
+  pull_request: { branches: [main, master] }
+  push: { branches: [main, master] }
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    container: { image: tigergate/tigergate-cli:latest }            # image entrypoint is the CLI
+    permissions:                            # GITHUB_TOKEN is read-only by default
+      contents: read
+      pull-requests: write                  # PR summary comment
+      statuses: write                       # pass/fail commit status
+    env:
+      TIGERGATE_API_KEY: ${{ secrets.TIGERGATE_API_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # lets --compliance run OpenSSF Scorecard
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }            # full history -> diff-aware PR scans
+      - run: >
+          scan --api-url http://localhost:3000/api/ci --type all --scan-scope auto
+          --fail-on critical,high --max-critical 0 --max-high 10
+          --quality-gate --exclude "node_modules,dist,vendor"
+          --sca-ignore-unfixed --coverage-report coverage/lcov.info
+          --compliance --upload
