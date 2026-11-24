@@ -1,0 +1,17 @@
+# INTENTIONALLY INSECURE - FOR SCANNER TESTING ONLY
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+      - "22:22"
+    # MISCONFIG: privileged container
+    privileged: true
+    # MISCONFIG: host path mounted into the container (including docker socket)
+    volumes:
+      - /:/host
+      - /var/run/docker.sock:/var/run/docker.sock
+    # MISCONFIG: plaintext secret in environment
+    environment:
+      - DB_PASSWORD=P@ssw0rd123

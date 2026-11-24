@@ -1,0 +1,19 @@
+{
+  "name": "vulnerable-demo",
+  "version": "1.0.0",
+  "description": "Intentionally vulnerable app for security scanner testing only",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.16.0",
+    "lodash": "4.17.4",
+    "minimist": "1.2.0",
+    "jsonwebtoken": "8.0.0",
+    "axios": "0.18.0",
+    "node-fetch": "2.6.0",
+    "ejs": "2.5.7",
+    "handlebars": "4.0.11"
+  }
+}
